@@ -4,6 +4,7 @@ import multer from 'multer'
 import {registerValidation, loginValidation, postCreateValidation} from './validations.js'
 import {getMe, getAll, getOne, login, register, create, remove, update} from "./controllers/index.js";
 import {checkAuth, handleValidationErrors} from "./utils/index.js";
+import cors from "cors";
 
 
 mongoose
@@ -30,7 +31,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 
 app.use(express.json())
-
+app.use(cors());
 //get запрос на получение статичного файла
 app.use('/uploads', express.static('uploads'));
 
