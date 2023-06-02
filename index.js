@@ -5,6 +5,7 @@ import {registerValidation, loginValidation, postCreateValidation} from './valid
 import {getMe, getAll, getOne, login, register, create, remove, update} from "./controllers/index.js";
 import {checkAuth, handleValidationErrors} from "./utils/index.js";
 import cors from "cors";
+import {getLastTags} from "./controllers/PostController.js";
 
 
 mongoose
@@ -32,7 +33,7 @@ const upload = multer({storage})
 
 app.use(express.json())
 app.use(cors());
-//get запрос на получение статичного файла
+//get запрос на получение статичного файла(типа картинки)
 app.use('/uploads', express.static('uploads'));
 
 app.post('/auth/login', loginValidation, handleValidationErrors, login)
@@ -47,7 +48,9 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
     })
 });
 
+app.get('/tags', getLastTags)
 app.get('/posts', getAll)
+app.get('/posts/tags', getLastTags)
 app.get('/posts/:id', getOne)
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, create)
 app.delete('/posts/:id', checkAuth, remove)
